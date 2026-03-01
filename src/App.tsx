@@ -5,7 +5,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import StudentRegisterPage from './pages/StudentRegisterPage';
 import DashboardLayout from './components/DashboardLayout';
-import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import ClassesListPage from './pages/teacher/ClassesListPage';
 import ClassDetailPage from './pages/teacher/ClassDetailPage';
 import StudentProgressPage from './pages/teacher/StudentProgressPage';
@@ -14,7 +13,7 @@ import StudentPortal from './pages/student/StudentPortal';
 import ParentPortal from './pages/parent/ParentPortal';
 
 type AuthView = 'login' | 'register' | 'student-register';
-type TeacherView = 'dashboard' | 'classes' | 'class-detail' | 'student-progress' | 'bulk-entry';
+type TeacherView = 'classes' | 'class-detail' | 'student-progress' | 'bulk-entry';
 
 interface NavigationState {
   classId?: string;
@@ -27,7 +26,7 @@ function AppContent() {
   const { user, profile, loading } = useAuth();
   const [authView, setAuthView] = useState<AuthView>('login');
   const [invitationToken, setInvitationToken] = useState<string | null>(null);
-  const [teacherView, setTeacherView] = useState<TeacherView>('dashboard');
+  const [teacherView, setTeacherView] = useState<TeacherView>('classes');
   const [navState, setNavState] = useState<NavigationState>({});
 
   useEffect(() => {
@@ -87,17 +86,12 @@ function AppContent() {
   function getBreadcrumbs(): { label: string; view?: TeacherView; data?: unknown }[] {
     const crumbs: { label: string; view?: TeacherView; data?: unknown }[] = [];
 
-    if (teacherView === 'dashboard') {
-      crumbs.push({ label: 'Dashboard' });
-    } else if (teacherView === 'classes') {
-      crumbs.push({ label: 'Dashboard', view: 'dashboard' });
+    if (teacherView === 'classes') {
       crumbs.push({ label: 'Classes' });
     } else if (teacherView === 'class-detail') {
-      crumbs.push({ label: 'Dashboard', view: 'dashboard' });
       crumbs.push({ label: 'Classes', view: 'classes' });
       crumbs.push({ label: navState.className || 'Class' });
     } else if (teacherView === 'student-progress') {
-      crumbs.push({ label: 'Dashboard', view: 'dashboard' });
       crumbs.push({ label: 'Classes', view: 'classes' });
       crumbs.push({
         label: navState.className || 'Class',
@@ -106,7 +100,6 @@ function AppContent() {
       });
       crumbs.push({ label: navState.studentName || 'Student Progress' });
     } else if (teacherView === 'bulk-entry') {
-      crumbs.push({ label: 'Dashboard', view: 'dashboard' });
       crumbs.push({ label: 'Classes', view: 'classes' });
       crumbs.push({
         label: navState.className || 'Class',
@@ -125,13 +118,6 @@ function AppContent() {
       onNavigate={handleNavigate}
       breadcrumbs={getBreadcrumbs()}
     >
-      {teacherView === 'dashboard' && (
-        <TeacherDashboard
-          onNavigateToClasses={() => handleNavigate('classes')}
-          onNavigateToClass={(classId) => handleNavigate('class-detail', { classId })}
-        />
-      )}
-
       {teacherView === 'classes' && (
         <ClassesListPage
           onNavigateToClass={(classId) => handleNavigate('class-detail', { classId })}

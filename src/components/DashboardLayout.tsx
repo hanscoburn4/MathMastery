@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/AuthContext';
 import SettingsModal from './SettingsModal';
 import {
   GraduationCap,
-  LayoutDashboard,
   BookOpen,
   Users,
   LogOut,
@@ -13,7 +12,7 @@ import {
   Settings
 } from 'lucide-react';
 
-type View = 'dashboard' | 'classes' | 'class-detail' | 'student-progress';
+type View = 'classes' | 'class-detail' | 'student-progress';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -33,7 +32,6 @@ export default function DashboardLayout({
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'classes', label: 'Classes', icon: BookOpen },
   ];
 

@@ -351,62 +351,52 @@ export default function ClassDetailPage({ classId, onNavigateToStudentProgress, 
 
         {activeTab === 'students' && (
           <div className="p-6">
-            <div className="mb-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold text-blue-900 mb-1">Class Code</h3>
-                  <p className="text-sm text-blue-700 mb-3">Share this code with students to join the class</p>
-                  <div className="flex items-center gap-3">
-                    <div className="bg-white px-6 py-3 rounded-lg border-2 border-blue-300">
-                      <span className="text-3xl font-bold text-blue-900 font-mono tracking-wider">
-                        {classData.class_code}
-                      </span>
-                    </div>
-                    <button
-                      onClick={handleCopyClassCode}
-                      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
-                    >
-                      {copiedClassCode ? (
-                        <>
-                          <Check className="w-4 h-4" />
-                          Copied!
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-4 h-4" />
-                          Copy Code
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2 mb-4">
-              <button
-                onClick={() => setShowAddStudentModal(true)}
-                className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add Student
-              </button>
-              <button
-                onClick={() => setShowInviteModal(true)}
-                className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-              >
-                <UserPlus className="w-4 h-4" />
-                Invite Students
-              </button>
-              {onNavigateToBulkEntry && (
+            <div className="flex justify-between items-center gap-4 mb-6">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-600">Class Code:</span>
+                <span className="font-mono font-semibold text-slate-900">{classData.class_code}</span>
                 <button
-                  onClick={() => onNavigateToBulkEntry(classId)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                  onClick={handleCopyClassCode}
+                  className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 px-2 py-1 rounded hover:bg-slate-100 text-sm transition-colors"
                 >
-                  <Zap className="w-4 h-4" />
-                  Quick Score Entry
+                  {copiedClassCode ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      Copy
+                    </>
+                  )}
                 </button>
-              )}
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowAddStudentModal(true)}
+                  className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Student
+                </button>
+                <button
+                  onClick={() => setShowInviteModal(true)}
+                  className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Invite Students
+                </button>
+                {onNavigateToBulkEntry && (
+                  <button
+                    onClick={() => onNavigateToBulkEntry(classId)}
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                  >
+                    <Zap className="w-4 h-4" />
+                    Quick Score Entry
+                  </button>
+                )}
+              </div>
             </div>
 
             {pendingInvitations.length > 0 && (
