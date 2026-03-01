@@ -9,11 +9,12 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import ClassesListPage from './pages/teacher/ClassesListPage';
 import ClassDetailPage from './pages/teacher/ClassDetailPage';
 import StudentProgressPage from './pages/teacher/StudentProgressPage';
+import BulkScoreEntryPage from './pages/teacher/BulkScoreEntryPage';
 import StudentPortal from './pages/student/StudentPortal';
 import ParentPortal from './pages/parent/ParentPortal';
 
 type AuthView = 'login' | 'register' | 'student-register';
-type TeacherView = 'dashboard' | 'classes' | 'class-detail' | 'student-progress';
+type TeacherView = 'dashboard' | 'classes' | 'class-detail' | 'student-progress' | 'bulk-entry';
 
 interface NavigationState {
   classId?: string;
@@ -104,6 +105,15 @@ function AppContent() {
         data: { classId: navState.classId }
       });
       crumbs.push({ label: navState.studentName || 'Student Progress' });
+    } else if (teacherView === 'bulk-entry') {
+      crumbs.push({ label: 'Dashboard', view: 'dashboard' });
+      crumbs.push({ label: 'Classes', view: 'classes' });
+      crumbs.push({
+        label: navState.className || 'Class',
+        view: 'class-detail',
+        data: { classId: navState.classId }
+      });
+      crumbs.push({ label: 'Bulk Score Entry' });
     }
 
     return crumbs;
@@ -134,6 +144,9 @@ function AppContent() {
           onNavigateToStudentProgress={(classId, studentId) =>
             handleNavigate('student-progress', { classId, studentId })
           }
+          onNavigateToBulkEntry={(classId) =>
+            handleNavigate('bulk-entry', { classId })
+          }
         />
       )}
 
@@ -144,6 +157,13 @@ function AppContent() {
           onNavigateToStudent={(studentId) =>
             handleNavigate('student-progress', { classId: navState.classId, studentId })
           }
+        />
+      )}
+
+      {teacherView === 'bulk-entry' && navState.classId && (
+        <BulkScoreEntryPage
+          classId={navState.classId}
+          onBack={() => handleNavigate('class-detail', { classId: navState.classId })}
         />
       )}
     </DashboardLayout>

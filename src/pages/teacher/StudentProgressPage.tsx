@@ -43,7 +43,7 @@ export default function StudentProgressPage({ classId, studentId, onNavigateToSt
   const [expandedUnits, setExpandedUnits] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [activeCell, setActiveCell] = useState<CellPosition | null>(null);
-  const [backfillMode, setBackfillMode] = useState(false);
+  const [backfillMode, setBackfillMode] = useState(true);
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
   const [infoExpanded, setInfoExpanded] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

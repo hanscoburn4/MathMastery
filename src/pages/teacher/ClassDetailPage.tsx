@@ -12,7 +12,8 @@ import {
   Pencil,
   ClipboardList,
   Copy,
-  Check
+  Check,
+  Zap
 } from 'lucide-react';
 import type { Class, Unit, Objective, Profile, Invitation, ProgressRecord, DifficultyLevel } from '../../types/database';
 import AdminAddStudentModal from '../../components/AdminAddStudentModal';
@@ -21,6 +22,7 @@ import ParentLinkModal from '../../components/ParentLinkModal';
 interface ClassDetailPageProps {
   classId: string;
   onNavigateToStudentProgress: (classId: string, studentId: string) => void;
+  onNavigateToBulkEntry?: (classId: string) => void;
 }
 
 interface StudentWithEnrollment extends Profile {
@@ -32,7 +34,7 @@ interface UnitScore {
   percentage: number;
 }
 
-export default function ClassDetailPage({ classId, onNavigateToStudentProgress }: ClassDetailPageProps) {
+export default function ClassDetailPage({ classId, onNavigateToStudentProgress, onNavigateToBulkEntry }: ClassDetailPageProps) {
   const [classData, setClassData] = useState<Class | null>(null);
   const [students, setStudents] = useState<StudentWithEnrollment[]>([]);
   const [units, setUnits] = useState<Unit[]>([]);
@@ -391,11 +393,20 @@ export default function ClassDetailPage({ classId, onNavigateToStudentProgress }
               </button>
               <button
                 onClick={() => setShowInviteModal(true)}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
               >
                 <UserPlus className="w-4 h-4" />
                 Invite Students
               </button>
+              {onNavigateToBulkEntry && (
+                <button
+                  onClick={() => onNavigateToBulkEntry(classId)}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                >
+                  <Zap className="w-4 h-4" />
+                  Quick Score Entry
+                </button>
+              )}
             </div>
 
             {pendingInvitations.length > 0 && (
